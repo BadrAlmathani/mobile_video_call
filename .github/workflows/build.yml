@@ -28,24 +28,16 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Inject repositories configuration to Gradle
+      - name: Add mavenCentral to Android build.gradle
         run: |
-          # هذه الخطوة تبحث عن ملفات الإعدادات في أندرويد وتضمن إضافة مستودع الكوتلن والحزم تلقائياً بدون المساس بالكود الأصلي يدويًا
-          GRADLE_INIT_DIR="$HOME/.gradle"
-          mkdir -p "$GRADLE_INIT_DIR"
-          
-          cat << 'EOF' > "$GRADLE_INIT_DIR/init.gradle"
-          allprojects {
-              repositories {
-                  google()
-                  mavenCentral()
-              }
-          }
-          EOF
-          echo "Gradle init script created successfully."
+          # إضافة مستودع mavenCentral يدويًا لملف إعدادات المشروع في جيت هب لضمان جلب مكتبات الكوتلن
+          if [ -f "android/build.gradle" ]; then
+            sed -i '/allprojects {/a \    repositories {\n        google()\n        mavenCentral()\n    }' android/build.gradle
+            echo "Successfully injected repositories into android/build.gradle"
+          fi
 
       - name: Build APK (Release)
-        run: flutter build apk --release --android-skip-build-dependency-validation --init-script $HOME/.gradle/init.gradle
+        run: flutter build apk --release
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
