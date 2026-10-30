@@ -28,12 +28,13 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Add mavenCentral to Android build.gradle
+      - name: Upgrade Gradle version automatically for Flutter compatibility
         run: |
-          # إضافة مستودع mavenCentral يدويًا لملف إعدادات المشروع في جيت هب لضمان جلب مكتبات الكوتلن
-          if [ -f "android/build.gradle" ]; then
-            sed -i '/allprojects {/a \    repositories {\n        google()\n        mavenCentral()\n    }' android/build.gradle
-            echo "Successfully injected repositories into android/build.gradle"
+          GRADLE_PROP_FILE="android/gradle/wrapper/gradle-wrapper.properties"
+          if [ -f "$GRADLE_PROP_FILE" ]; then
+            echo "Upgrading Gradle version in wrapper..."
+            sed -i 's/gradle-.*-bin.zip/gradle-8.14.0-bin.zip/g' "$GRADLE_PROP_FILE"
+            cat "$GRADLE_PROP_FILE"
           fi
 
       - name: Build APK (Release)
