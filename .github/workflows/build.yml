@@ -28,20 +28,24 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Fix repositories for Kotlin and Gradle dependencies
+      - name: Inject repositories configuration to Gradle
         run: |
-          # إضافة مستودع mavenCentral و google لملفات الإعدادات تلقائياً لتجنب خطأ نقص المكتبات
-          if [ -f "android/build.gradle" ]; then
-            echo "Injecting repositories into android/build.gradle"
-            sed -i '/allprojects {/a \    repositories {\n        google()\n        mavenCentral()\n    }' android/build.gradle || true
-          fi
-          if [ -f "android/settings.gradle" ]; then
-            echo "Injecting repositories into android/settings.gradle"
-            sed -i '/dependencyResolutionManagement {/a \    repositories {\n        google()\n        mavenCentral()\n    }' android/settings.gradle || true
-          fi
+          # هذه الخطوة تبحث عن ملفات الإعدادات في أندرويد وتضمن إضافة مستودع الكوتلن والحزم تلقائياً بدون المساس بالكود الأصلي يدويًا
+          GRADLE_INIT_DIR="$HOME/.gradle"
+          mkdir -p "$GRADLE_INIT_DIR"
+          
+          cat << 'EOF' > "$GRADLE_INIT_DIR/init.gradle"
+          allprojects {
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+          EOF
+          echo "Gradle init script created successfully."
 
       - name: Build APK (Release)
-        run: flutter build apk --release --android-skip-build-dependency-validation
+        run: flutter build apk --release --android-skip-build-dependency-validation --init-script $HOME/.gradle/init.gradle
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
