@@ -104,7 +104,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               child: const Row(
                 children: [
-                  Icon(Icons.router_rounded, color:Colors.greenAccent, size: 28),
+                  Icon(Icons.router_rounded, color: Colors.emeraldAccent, size: 28),
                   SizedBox(width: 12),
                   Expanded(
                     child: Text(
@@ -129,7 +129,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 labelStyle: const TextStyle(color: Colors.grey),
                 filled: true,
                 fillColor: const Color(0xFF1E293B),
-                prefixIcon: const Icon(Icons.computer, color: Colors.greenAccent),
+                prefixIcon: const Icon(Icons.computer, color: Colors.emeraldAccent),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
@@ -147,7 +147,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 labelStyle: const TextStyle(color: Colors.grey),
                 filled: true,
                 fillColor: const Color(0xFF1E293B),
-                prefixIcon: const Icon(Icons.numbers, color: Colors.greenAccent),
+                prefixIcon: const Icon(Icons.numbers, color: Colors.emeraldAccent),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
@@ -156,13 +156,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // Test button
             OutlinedButton.icon(
               style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.greenAccent,
-                side: const BorderSide(color: Colors.greenAccent),
+                foregroundColor: Colors.emeraldAccent,
+                side: const BorderSide(color: Colors.emeraldAccent),
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
               icon: _isTesting
-                  ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color:Colors.greenAccent))
+                  ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.emeraldAccent))
                   : const Icon(Icons.network_check_rounded),
               label: const Text('فحص الاتصال بالسيرفر الآن'),
               onPressed: _isTesting ? null : _testConnection,
@@ -173,14 +173,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: _testSuccess ? Colors.teal.withOpacity(0.15) : Colors.red.withOpacity(0.15),
+                  color: _testSuccess ? Colors.emerald.withOpacity(0.15) : Colors.red.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: _testSuccess ? Colors.greenAccent : Colors.redAccent),
+                  border: Border.all(color: _testSuccess ? Colors.emeraldAccent : Colors.redAccent),
                 ),
                 child: Text(
                   _testResult!,
                   style: TextStyle(
-                    color: _testSuccess ?Colors.greenAccent : Colors.redAccent,
+                    color: _testSuccess ? Colors.emeraldAccent : Colors.redAccent,
                     fontSize: 13,
                   ),
                 ),

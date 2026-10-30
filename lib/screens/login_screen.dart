@@ -29,14 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _loadSavedSettings() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _serverHost = prefs.getString(WebRTCConfig.keyServerHost) ??
-          WebRTCConfig.defaultHost;
-      _serverPort =
-          prefs.getInt(WebRTCConfig.keyServerPort) ?? WebRTCConfig.defaultPort;
-      _userIdController.text =
-          prefs.getString(WebRTCConfig.keyUserId) ?? 'phone_a';
-      _displayNameController.text =
-          prefs.getString(WebRTCConfig.keyDisplayName) ?? 'الهاتف الأول (أ)';
+      _serverHost = prefs.getString(WebRTCConfig.keyServerHost) ?? WebRTCConfig.defaultHost;
+      _serverPort = prefs.getInt(WebRTCConfig.keyServerPort) ?? WebRTCConfig.defaultPort;
+      _userIdController.text = prefs.getString(WebRTCConfig.keyUserId) ?? 'phone_a';
+      _displayNameController.text = prefs.getString(WebRTCConfig.keyDisplayName) ?? 'الهاتف الأول (أ)';
     });
   }
 
@@ -94,12 +90,11 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text('دخول مكالمات WebRTC',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('دخول مكالمات WebRTC', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings, color: Colors.greenAccent),
+            icon: const Icon(Icons.settings, color: Colors.emeraldAccent),
             onPressed: () async {
               await Navigator.push(
                 context,
@@ -120,23 +115,18 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.greenAccent.withOpacity(0.1),
+                  color: Colors.emeraldAccent.withOpacity(0.1),
                   shape: BoxShape.circle,
-                  border: Border.all(
-                      color: Colors.greenAccent.withOpacity(0.3), width: 2),
+                  border: Border.all(color: Colors.emeraldAccent.withOpacity(0.3), width: 2),
                 ),
-                child: const Icon(Icons.videocam_rounded,
-                    size: 56, color: Colors.greenAccent),
+                child: const Icon(Icons.videocam_rounded, size: 56, color: Colors.emeraldAccent),
               ),
             ),
             const SizedBox(height: 16),
             const Text(
               'اتصال فيديو محلي عبر Wi-Fi',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             const SizedBox(height: 6),
             Text(
@@ -149,10 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
             // Quick device selection presets
             const Text(
               'اختر دور هذا الهاتف:',
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white70),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white70),
             ),
             const SizedBox(height: 12),
             Row(
@@ -167,16 +154,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                         side: BorderSide(
-                          color: _userIdController.text == 'phone_a'
-                              ? Colors.greenAccent
-                              : Colors.transparent,
+                          color: _userIdController.text == 'phone_a' ? Colors.emeraldAccent : Colors.transparent,
                         ),
                       ),
                     ),
-                    onPressed: () =>
-                        _selectPreset('phone_a', 'الهاتف الأول (أ)'),
-                    child: const Text('الهاتف الأول (أ)',
-                        style: TextStyle(color: Colors.white)),
+                    onPressed: () => _selectPreset('phone_a', 'الهاتف الأول (أ)'),
+                    child: const Text('الهاتف الأول (أ)', style: TextStyle(color: Colors.white)),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -190,16 +173,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                         side: BorderSide(
-                          color: _userIdController.text == 'phone_b'
-                              ? Colors.greenAccent
-                              : Colors.transparent,
+                          color: _userIdController.text == 'phone_b' ? Colors.emeraldAccent : Colors.transparent,
                         ),
                       ),
                     ),
-                    onPressed: () =>
-                        _selectPreset('phone_b', 'الهاتف الثاني (ب)'),
-                    child: const Text('الهاتف الثاني (ب)',
-                        style: TextStyle(color: Colors.white)),
+                    onPressed: () => _selectPreset('phone_b', 'الهاتف الثاني (ب)'),
+                    child: const Text('الهاتف الثاني (ب)', style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],
@@ -215,10 +194,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 labelStyle: const TextStyle(color: Colors.grey),
                 filled: true,
                 fillColor: const Color(0xFF1E293B),
-                prefixIcon:
-                    const Icon(Icons.fingerprint, color: Colors.greenAccent),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                prefixIcon: const Icon(Icons.fingerprint, color: Colors.emeraldAccent),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
             const SizedBox(height: 16),
@@ -230,9 +207,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 labelStyle: const TextStyle(color: Colors.grey),
                 filled: true,
                 fillColor: const Color(0xFF1E293B),
-                prefixIcon: const Icon(Icons.person, color: Colors.greenAccent),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                prefixIcon: const Icon(Icons.person, color: Colors.emeraldAccent),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
             const SizedBox(height: 28),
@@ -242,8 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF10B981),
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
               onPressed: _isLoading ? null : _handleConnect,
               child: _isLoading
@@ -253,11 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Icon(Icons.login_rounded, color: Colors.white),
                         SizedBox(width: 8),
-                        Text('تسجيل الدخول والاتصال بالسيرفر',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white)),
+                        Text('تسجيل الدخول والاتصال بالسيرفر', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                       ],
                     ),
             ),
