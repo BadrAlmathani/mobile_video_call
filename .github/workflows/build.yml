@@ -2,7 +2,7 @@ name: Build Flutter APK
 
 on:
   push:
-    branches: [ "main" ] # سيعمل البناء تلقائياً كلما رفعت شيئاً إلى فرع main
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -21,12 +21,24 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.x' # يمكنك تحديد إصدار فلاتر المحدد الذي تستخدمه أو تركه هكذا
+          flutter-version: '3.x'
           channel: 'stable'
           cache: true
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Fix repositories for Kotlin and Gradle dependencies
+        run: |
+          # إضافة مستودع mavenCentral و google لملفات الإعدادات تلقائياً لتجنب خطأ نقص المكتبات
+          if [ -f "android/build.gradle" ]; then
+            echo "Injecting repositories into android/build.gradle"
+            sed -i '/allprojects {/a \    repositories {\n        google()\n        mavenCentral()\n    }' android/build.gradle || true
+          fi
+          if [ -f "android/settings.gradle" ]; then
+            echo "Injecting repositories into android/settings.gradle"
+            sed -i '/dependencyResolutionManagement {/a \    repositories {\n        google()\n        mavenCentral()\n    }' android/settings.gradle || true
+          fi
 
       - name: Build APK (Release)
         run: flutter build apk --release --android-skip-build-dependency-validation
