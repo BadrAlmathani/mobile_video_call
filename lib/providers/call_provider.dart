@@ -51,6 +51,7 @@ class CallProvider with ChangeNotifier {
 
   RTCVideoRenderer get localRenderer => _webrtc.localRenderer;
   RTCVideoRenderer get remoteRenderer => _webrtc.remoteRenderer;
+  bool get hasRemoteVideo => _webrtc.hasRemoteVideo;
   bool get isMicMuted => _webrtc.isMicMuted;
   bool get isVideoOff => _webrtc.isVideoOff;
   bool get isFrontCamera => _webrtc.isFrontCamera;
@@ -63,6 +64,11 @@ class CallProvider with ChangeNotifier {
 
   Future<void> initialize() async {
     await _webrtc.initializeRenderers();
+
+    _webrtc.onRemoteStream = (stream) {
+      debugPrint('[CallProvider] Remote stream callback received! Video tracks: ${stream.getVideoTracks().length}');
+      notifyListeners();
+    };
 
     _webrtc.onIceCandidate = (candidate) {
       if (_activeSessionId != null && _remotePeerId != null) {
@@ -308,10 +314,21 @@ class CallProvider with ChangeNotifier {
       case 'ice_candidate':
         if (msg.candidate != null) {
           final candMap = msg.candidate!;
+          final candStr = candMap['candidate'] as String?;
+          if (candStr == null || candStr.trim().isEmpty) {
+            debugPrint('[CallProvider] Skipping empty or end-of-candidates ICE candidate');
+            break;
+          }
+          final sdpMid = candMap['sdpMid'] as String?;
+          final rawMLine = candMap['sdpMLineIndex'] ?? candMap['sdpMlineIndex'];
+          final int? sdpMLineIndex = rawMLine is int
+              ? rawMLine
+              : (rawMLine != null ? int.tryParse(rawMLine.toString()) : null);
+
           final candidate = RTCIceCandidate(
-            candMap['candidate'],
-            candMap['sdpMid'],
-            candMap['sdpMLineIndex'],
+            candStr,
+            sdpMid,
+            sdpMLineIndex,
           );
           await _webrtc.addIceCandidate(candidate);
         }

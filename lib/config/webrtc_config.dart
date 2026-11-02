@@ -23,13 +23,18 @@ class WebRTCConfig {
 
   // PeerConnection constraints
   static final Map<String, dynamic> peerConnectionConstraints = {
+    'optional': [
+      {'DtlsSrtpKeyAgreement': true},
+    ],
+  };
+
+  // Standard SDP constraints for audio and video negotiation
+  static const Map<String, dynamic> sdpConstraints = {
     'mandatory': {
       'OfferToReceiveAudio': true,
       'OfferToReceiveVideo': true,
     },
-    'optional': [
-      {'DtlsSrtpKeyAgreement': true},
-    ],
+    'optional': [],
   };
 
   // Media constraints for local camera and mic

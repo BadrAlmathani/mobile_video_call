@@ -115,7 +115,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     Text(
                       '(${provider.onlineUsers.length} جهاز)',
-                      style: const TextStyle(fontSize: 13, color: const Color(0xFF50C878)),
+                      style: const TextStyle(fontSize: 13, color: Color(0xFF50C878)),
                     ),
                   ],
                 ),

@@ -47,11 +47,8 @@ class ActiveCallScreen extends StatelessWidget {
   }
 
   Widget _buildRemoteVideoView(CallProvider provider) {
-    // Check if remote stream is assigned
-    final hasRemoteVideo = provider.remoteRenderer.srcObject != null &&
-        provider.remoteRenderer.srcObject!.getVideoTracks().isNotEmpty;
-
-    if (hasRemoteVideo) {
+    // Check if remote stream is assigned and has active video
+    if (provider.hasRemoteVideo) {
       return RTCVideoView(
         provider.remoteRenderer,
         objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,

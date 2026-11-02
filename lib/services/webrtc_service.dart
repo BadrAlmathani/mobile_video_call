@@ -6,6 +6,7 @@ import '../config/webrtc_config.dart';
 typedef OnIceCandidateCallback = void Function(RTCIceCandidate candidate);
 typedef OnConnectionStateCallback = void Function(RTCPeerConnectionState state);
 typedef OnIceConnectionStateCallback = void Function(RTCIceConnectionState state);
+typedef OnRemoteStreamCallback = void Function(MediaStream stream);
 
 class WebRTCService {
   RTCPeerConnection? _peerConnection;
@@ -18,6 +19,7 @@ class WebRTCService {
   OnIceCandidateCallback? onIceCandidate;
   OnConnectionStateCallback? onConnectionStateChange;
   OnIceConnectionStateCallback? onIceConnectionStateChange;
+  OnRemoteStreamCallback? onRemoteStream;
 
   bool _isMicMuted = false;
   bool _isVideoOff = false;
@@ -29,6 +31,11 @@ class WebRTCService {
   bool get isMicMuted => _isMicMuted;
   bool get isVideoOff => _isVideoOff;
   bool get isFrontCamera => _isFrontCamera;
+
+  bool get hasRemoteVideo {
+    if (remoteRenderer.srcObject == null) return false;
+    return remoteRenderer.srcObject!.getVideoTracks().isNotEmpty;
+  }
 
   Future<void> initializeRenderers() async {
     await localRenderer.initialize();
@@ -43,6 +50,11 @@ class WebRTCService {
       _isMicMuted = false;
       _isVideoOff = false;
       _isFrontCamera = true;
+      try {
+        await Helper.setSpeakerphoneOn(true);
+      } catch (e) {
+        debugPrint('[WebRTC] Note: Could not set speakerphone: $e');
+      }
     } catch (e) {
       debugPrint('[WebRTC] Error acquiring local media: $e');
       rethrow;
@@ -73,11 +85,27 @@ class WebRTCService {
       }
     };
 
-    // Remote Track Reception
-    _peerConnection!.onTrack = (RTCTrackEvent event) {
+    // Remote Stream Reception (Native Android WebRTC callback)
+    _peerConnection!.onAddStream = (MediaStream stream) {
+      debugPrint('[WebRTC] onAddStream received: ID=${stream.id}, audio=${stream.getAudioTracks().length}, video=${stream.getVideoTracks().length}');
+      _remoteStream = stream;
+      remoteRenderer.srcObject = _remoteStream;
+      onRemoteStream?.call(_remoteStream!);
+    };
+
+    // Remote Track Reception (Unified Plan callback)
+    _peerConnection!.onTrack = (RTCTrackEvent event) async {
+      debugPrint('[WebRTC] onTrack received: kind=${event.track.kind}, streams=${event.streams.length}');
       if (event.streams.isNotEmpty) {
         _remoteStream = event.streams[0];
         remoteRenderer.srcObject = _remoteStream;
+        onRemoteStream?.call(_remoteStream!);
+      } else {
+        // Fallback when streams list is empty in Unified Plan
+        _remoteStream ??= await createLocalMediaStream('remote_stream_${DateTime.now().millisecondsSinceEpoch}');
+        _remoteStream!.addTrack(event.track);
+        remoteRenderer.srcObject = _remoteStream;
+        onRemoteStream?.call(_remoteStream!);
       }
     };
 
@@ -95,20 +123,14 @@ class WebRTCService {
 
   Future<RTCSessionDescription> createOffer() async {
     if (_peerConnection == null) throw Exception('PeerConnection not initialized');
-    final offer = await _peerConnection!.createOffer({
-      'offerToReceiveAudio': 1,
-      'offerToReceiveVideo': 1,
-    });
+    final offer = await _peerConnection!.createOffer(WebRTCConfig.sdpConstraints);
     await _peerConnection!.setLocalDescription(offer);
     return offer;
   }
 
   Future<RTCSessionDescription> createAnswer() async {
     if (_peerConnection == null) throw Exception('PeerConnection not initialized');
-    final answer = await _peerConnection!.createAnswer({
-      'offerToReceiveAudio': 1,
-      'offerToReceiveVideo': 1,
-    });
+    final answer = await _peerConnection!.createAnswer(WebRTCConfig.sdpConstraints);
     await _peerConnection!.setLocalDescription(answer);
     return answer;
   }
@@ -133,6 +155,10 @@ class WebRTCService {
 
   Future<void> addIceCandidate(RTCIceCandidate candidate) async {
     if (_peerConnection == null) return;
+    if (candidate.candidate == null || candidate.candidate!.trim().isEmpty) {
+      debugPrint('[WebRTC] Skipping empty ICE candidate');
+      return;
+    }
 
     if (_isRemoteDescriptionSet) {
       try {
