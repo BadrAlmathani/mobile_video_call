@@ -8,7 +8,7 @@ pluginManagement {
             }
         }
         def path = properties.getProperty("flutter.sdk")
-        if (path == null) {
+        if (path == null || !new File(path).exists()) {
             path = System.env.FLUTTER_ROOT
         }
         return path
@@ -20,6 +20,9 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven {
+            url 'https://storage.googleapis.com/download.flutter.io'
+        }
     }
 }
 
