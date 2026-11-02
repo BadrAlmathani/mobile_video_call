@@ -115,7 +115,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     Text(
                       '(${provider.onlineUsers.length} جهاز)',
-                      style: const TextStyle(fontSize: 13, color: Colors.emeraldAccent),
+                      style: const TextStyle(fontSize: 13, color: const Color(0xFF50C878)),
                     ),
                   ],
                 ),
@@ -139,7 +139,7 @@ class HomeScreen extends StatelessWidget {
     String label;
     switch (status) {
       case ConnectionStatus.connected:
-        color = Colors.emeraldAccent;
+        color = Colors.greenAccent;
         label = 'متصل';
         break;
       case ConnectionStatus.connecting:
@@ -213,7 +213,7 @@ class HomeScreen extends StatelessWidget {
         color: const Color(0xFF1E293B),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: isIdle ? Colors.emeraldAccent.withOpacity(0.2) : Colors.amberAccent.withOpacity(0.2),
+          color: isIdle ? Colors.greenAccent.withOpacity(0.2) : Colors.amberAccent.withOpacity(0.2),
         ),
       ),
       child: Row(
@@ -226,7 +226,7 @@ class HomeScreen extends StatelessWidget {
             ),
             child: Icon(
               Icons.phone_android_rounded,
-              color: isIdle ? Colors.emeraldAccent : Colors.amberAccent,
+              color: isIdle ? Colors.greenAccent : Colors.amberAccent,
             ),
           ),
           const SizedBox(width: 14),
@@ -245,7 +245,7 @@ class HomeScreen extends StatelessWidget {
                       width: 6,
                       height: 6,
                       decoration: BoxDecoration(
-                        color: isIdle ? Colors.emeraldAccent : Colors.amberAccent,
+                        color: isIdle ? Colors.greenAccent : Colors.amberAccent,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -254,7 +254,7 @@ class HomeScreen extends StatelessWidget {
                       isIdle ? 'جاهز للمكالمة' : 'مشغول في مكالمة',
                       style: TextStyle(
                         fontSize: 12,
-                        color: isIdle ? Colors.emeraldAccent : Colors.amberAccent,
+                        color: isIdle ? Colors.greenAccent : Colors.amberAccent,
                       ),
                     ),
                   ],

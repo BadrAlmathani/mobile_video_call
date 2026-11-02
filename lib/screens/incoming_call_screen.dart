@@ -22,16 +22,16 @@ class IncomingCallScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
-                        color: Colors.emeraldAccent.withOpacity(0.15),
+                        color: Colors.greenAccent.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.emeraldAccent.withOpacity(0.4)),
+                        border: Border.all(color: Colors.greenAccent.withOpacity(0.4)),
                       ),
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.ring_volume, color: Colors.emeraldAccent, size: 18),
+                          Icon(Icons.ring_volume, color: Colors.greenAccent, size: 18),
                           SizedBox(width: 8),
-                          Text('مكالمة فيديو واردة...', style: TextStyle(color: Colors.emeraldAccent, fontWeight: FontWeight.bold)),
+                          Text('مكالمة فيديو واردة...', style: TextStyle(color: Colors.greenAccent, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),
@@ -108,7 +108,7 @@ class IncomingCallScreen extends StatelessWidget {
                               child: const Icon(Icons.videocam_rounded, size: 36, color: Colors.white),
                             ),
                             const SizedBox(height: 10),
-                            const Text('قبول بالفيديو', style: TextStyle(color: Colors.emeraldAccent, fontWeight: FontWeight.bold, fontSize: 14)),
+                            const Text('قبول بالفيديو', style: TextStyle(color: Colors.greenAccent, fontWeight: FontWeight.bold, fontSize: 14)),
                           ],
                         ),
                       ],

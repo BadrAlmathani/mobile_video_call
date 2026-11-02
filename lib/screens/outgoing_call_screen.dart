@@ -22,12 +22,12 @@ class OutgoingCallScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(28),
                       decoration: BoxDecoration(
-                        color: Colors.emeraldAccent.withOpacity(0.1),
+                        color: Colors.greenAccent.withOpacity(0.1),
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.emeraldAccent, width: 3),
+                        border: Border.all(color: Colors.greenAccent, width: 3),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.emeraldAccent.withOpacity(0.3),
+                            color: Colors.greenAccent.withOpacity(0.3),
                             blurRadius: 30,
                             spreadRadius: 5,
                           ),

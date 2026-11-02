@@ -68,11 +68,12 @@ class ActiveCallScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(32),
               decoration: BoxDecoration(
-                color: Colors.emeraldAccent.withOpacity(0.1),
+                color: Colors.greenAccent
+                .withOpacity(0.1),
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.emeraldAccent.withOpacity(0.4), width: 2),
+                border: Border.all(color: Colors.greenAccent.withOpacity(0.4), width: 2),
               ),
-              child: const Icon(Icons.videocam_rounded, size: 72, color: Colors.emeraldAccent),
+              child: const Icon(Icons.videocam_rounded, size: 72, color: Colors.greenAccent),
             ),
             const SizedBox(height: 20),
             Text(
@@ -83,10 +84,11 @@ class ActiveCallScreen extends StatelessWidget {
             const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+
                 SizedBox(
                   width: 14,
                   height: 14,
-                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.emeraldAccent),
+                  child: CircularProgressIndicator(strokeWidth: 2, color:Colors.greenAccent),
                 ),
                 SizedBox(width: 10),
                 Text('جارٍ استقبال مسار الفيديو البعيد...', style: TextStyle(color: Colors.grey, fontSize: 13)),
@@ -105,7 +107,7 @@ class ActiveCallScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFF1E293B),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.emeraldAccent.withOpacity(0.6), width: 2),
+        border: Border.all(color:Colors.greenAccent.withOpacity(0.6), width: 2),
         boxShadow: const [
           BoxShadow(color: Colors.black54, blurRadius: 12, spreadRadius: 2),
         ],
@@ -184,7 +186,7 @@ class ActiveCallScreen extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.wifi, size: 12, color: Colors.emeraldAccent),
+              const Icon(Icons.wifi, size: 12, color: Colors.greenAccent),
               const SizedBox(width: 4),
               Text(
                 'شبكة محلية Wi-Fi',
